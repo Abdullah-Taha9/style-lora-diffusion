@@ -97,11 +97,6 @@ For training on clusters with SLURM job scheduling, use the provided batch scrip
 
 Trained LoRA weights and model checkpoints are saved to the `lora_out/` directory. These adapters can be loaded onto the base Stable Diffusion 1.5 model for inference or further fine-tuning.
 
-## Repository Statistics
-
-- Language: Python (71.6%), Shell (2.2%)
-- Created: August 24, 2025
-- Last updated: May 10, 2026
 
 ## References
 
