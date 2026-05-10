@@ -1,9 +1,0 @@
-diffusers
-peft
-torch>2
-torchvision
-safetensors
-transformers
-pathlib
-pillow
-tqdm
