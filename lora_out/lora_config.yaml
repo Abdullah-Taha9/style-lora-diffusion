@@ -1,0 +1,26 @@
+version: 1
+model: runwayml/stable-diffusion-v1-5
+
+targets:
+  unet:
+    enabled: true
+    projections: [to_q, to_k, to_v, to_out]
+    rank: 16
+    alpha: 16
+    dropout: 0.0
+    processor: auto   # auto | v1 | v2
+
+  text_encoder:
+    enabled: true
+    modules: [q_proj, k_proj, v_proj, out_proj]
+    rank: 16
+    alpha: 16
+    dropout: 0.0
+
+token:
+  train_embedding: false   # true if you want TI warmup
+  warmup_steps: 300
+
+save:
+  format: diffusers        # diffusers | safetensors
+  output_dir: lora_out
