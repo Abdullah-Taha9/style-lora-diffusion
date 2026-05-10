@@ -1,0 +1,60 @@
+# configs/train.yaml
+model: runwayml/stable-diffusion-v1-5
+
+token:
+  style_token: &sks "<sks>"
+  train_embedding: false
+  ref_words: ["anime", "illustration", "ghibli"]
+
+data:
+  datasets_dirs: 
+    - data/512
+  captions_path: null            # or "configs/captions.txt"
+  resolution: 512
+  center_crop: true
+  random_flip: true
+  default_caption: "a <sks> style anime image"
+  style_token: *sks
+  caption_dropout: 0.05     # try 0.1–0.3
+  class_word: "illustration"
+
+train:
+  batch_size: 32
+  num_workers: 4
+  grad_accum_steps: 1
+  max_steps: 4000
+  sample_every: 200
+  lr: 1e-4
+  unet_lr: 2e-3
+  te_lr: 1e-5
+  snr_gamma : 5.0
+  weight_decay: 0.00
+  lr_scheduler: constant # cosine constant
+  warmup_steps: 200
+  mixed_precision: fp16
+  gradient_checkpointing: true
+  clip_grad_norm: 1.0
+  noise_offset: 0.1   # try 0.0–1.0
+  seed: 42
+  sample_prompts:
+    - "A girl in a red jacket is holding a stick, <sks> style"
+    - "A busy market, in <sks> style"
+    - "A forest, in <sks> style"
+    - "Two children sitting on a rock watching the sun set, <sks> style"
+    - "There is a group of people sitting at a table with food, <sks> style"
+    - "A boy sitting at a table with a plate of food and a bottle of milk, <sks> style"
+    - "There is a man and a woman standing in a field of flowers, <sks> style"
+    - "There is a man standing on the deck of a ship looking at a plane, <sks> style"
+  runs_root: runs
+  resume:
+    state_path: null  # path to training state
+    lora_path: /home/hpc/v123be/v123be29/repos/stable_diffusion_lora_fine_tuning/runs/2025-08-25_03-39-41_b693e5/lora_step_002200.safetensors    # path to LoRA weights 
+
+eval:
+  every: 200
+  prompts:
+    - "a busy market, in <sks> style"
+    - "sunset market, in <sks> style"
+  num_images_per_prompt: 2
+  guidance_scale: 7.5
+  num_inference_steps: 40
